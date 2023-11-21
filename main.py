@@ -38,7 +38,7 @@ class PomodoroTimer:
 
         # Review Past Records Button
         self.review_button = tk.Button(self.master, text="Review Past Records", command=self.review_past_records, font=LABEL_FONT, bg=BTN_BG, fg=BTN_FG)
-        self.review_button.grid(row=3, column=0, columnspan=2, pady=(10, 0), ipadx=10)
+        self.review_button.grid(row=4, column=0, columnspan=2, pady=(10, 0), ipadx=10)
 
         # To-Do List Frame
         self.todo_frame = tk.Frame(self.master, bg=BG_COLOR)
