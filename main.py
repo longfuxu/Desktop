@@ -146,6 +146,18 @@ class PomodoroTimer:
         with open('pomodoro_data.json', 'w') as f:
             json.dump(data, f, indent=4)
 
+    def display_past_records(self):
+        try:
+            with open('pomodoro_data.json', 'r') as f:
+                data = json.load(f)
+                print("Past Pomodoro Records:")
+                for todo in data['todos']:
+                    status = "Completed" if todo['completed'] else "Not Completed"
+                    print(f"- {todo['task']} - {status}")
+                print(f"Last session was on {data['timestamp']}")
+        except FileNotFoundError:
+            print("No past records found.")
+
     def load_state(self):
         try:
             with open('pomodoro_data.json', 'r') as f:
@@ -171,4 +183,5 @@ class PomodoroTimer:
 if __name__ == "__main__":
     root = tk.Tk()
     app = PomodoroTimer(root)
+    app.display_past_records()  # Display past records when the application starts
     root.mainloop()
