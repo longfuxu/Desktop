@@ -26,23 +26,26 @@ class PomodoroTimer:
         self.time_remaining = self.POMODORO_TIME
         self.timer_running = False
         
-    # New method to set the timer duration
+    # Updated method to set the timer durations
     def set_timer(self):
         try:
-            new_time = simpledialog.askinteger("Settings", "Enter Pomodoro time in minutes:", minvalue=1, maxvalue=60)
-            if new_time is not None:
-                self.POMODORO_TIME = new_time * 60
-                self.time_remaining = self.POMODORO_TIME
+            new_pomodoro_time = simpledialog.askinteger("Settings", "Enter Pomodoro time in minutes:", minvalue=1, maxvalue=60)
+            new_break_time = simpledialog.askinteger("Settings", "Enter break time in minutes:", minvalue=1, maxvalue=60)
+            if new_pomodoro_time is not None and new_break_time is not None:
+                self.POMODORO_TIME = new_pomodoro_time * 60
+                self.BREAK_TIME = new_break_time * 60
+                self.time_remaining = self.POMODORO_TIME  # Reset to Pomodoro time by default
                 self.update_timer_label()
         except Exception as e:
             messagebox.showerror("Error", f"An error occurred: {e}")
     
-    # Method to update the timer label
-    def update_timer_label(self):
-        minutes = self.time_remaining // 60
-        seconds = self.time_remaining % 60
-        time_str = f"{minutes:02d}:{seconds:02d}"
-        self.timer_label.config(text=time_str)
+    # Updated method to update the timer label based on the current mode
+    def update_timer_label(self, mode="pomodoro"):
+        if mode == "pomodoro":
+            minutes, seconds = divmod(self.POMODORO_TIME, 60)
+        else:  # mode == "break"
+            minutes, seconds = divmod(self.BREAK_TIME, 60)
+        self.timer_label.config(text=f"{minutes:02d}:{seconds:02d}")
     
     def start_timer(self):
         try:
