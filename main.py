@@ -165,11 +165,11 @@ class PomodoroTimer:
                 self.POMODORO_TIME = data['pomodoro_time']
                 self.BREAK_TIME = data['break_time']
                 for todo in data['todos']:
-                    self.add_task(todo['task'], todo['completed'])
+                    self.load_task(todo['task'], todo['completed'])
         except FileNotFoundError:
             pass  # It's okay if the file doesn't exist yet
 
-    def add_task(self, task_text, completed=False):
+    def load_task(self, task_text, completed=False):
         if task_text:
             task_state = tk.BooleanVar(value=completed)
             task = tk.Checkbutton(self.tasks_frame, text=task_text, variable=task_state, font=LABEL_FONT, bg=BG_COLOR, fg=FG_COLOR, selectcolor=BG_COLOR)
@@ -177,7 +177,6 @@ class PomodoroTimer:
             if completed:
                 task.select()
             self.tasks.append((task, task_state))
-            self.todo_entry.delete(0, tk.END)
     
 
 if __name__ == "__main__":
