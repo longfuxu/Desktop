@@ -8,6 +8,7 @@ The Pomodoro Timer is a simple and effective time management tool that can help 
 - Simple and intuitive user interface
 - Start, stop, and reset timer controls
 - Notifications when a Pomodoro or break period ends
+- To-Do List to keep track of tasks during Pomodoro sessions
 
 ## How to Use
 1. Start the Pomodoro Timer application.
@@ -16,7 +17,8 @@ The Pomodoro Timer is a simple and effective time management tool that can help 
 4. The timer will count down the time for the Pomodoro session.
 5. Once the Pomodoro time ends, a notification will appear, and the timer will automatically start the break time.
 6. You can stop the timer at any time by clicking the "Stop" button.
-7. After the break, you can start a new Pomodoro by clicking the "Start" button again.
+7. Use the To-Do List to add tasks you want to work on during the Pomodoro sessions.
+8. After the break, you can start a new Pomodoro by clicking the "Start" button again.
 
 ## Requirements
 - Python 3.x
