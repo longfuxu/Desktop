@@ -1,6 +1,6 @@
 
 import tkinter as tk
-from tkinter import messagebox, simpledialog
+from tkinter import messagebox, simpledialog, Entry, Checkbutton
     
 # Styling constants
 BG_COLOR = "#282c34"
@@ -32,7 +32,30 @@ class PomodoroTimer:
 
         # Settings button with a modern look
         self.settings_button = tk.Button(self.master, text="Settings", command=self.set_timer, font=LABEL_FONT, bg=BTN_BG, fg=BTN_FG)
-        self.settings_button.grid(row=2, column=0, columnspan=2, pady=(10, 20), ipadx=10)
+        self.settings_button.grid(row=2, column=0, columnspan=2, pady=(10, 0), ipadx=10)
+
+        # To-Do List Frame
+        self.todo_frame = tk.Frame(self.master, bg=BG_COLOR)
+        self.todo_frame.grid(row=3, column=0, columnspan=2, pady=(10, 0), sticky="ew")
+
+        # To-Do List Label
+        self.todo_label = tk.Label(self.todo_frame, text="To-Do List", font=LABEL_FONT, bg=BG_COLOR, fg=FG_COLOR)
+        self.todo_label.grid(row=0, column=0, pady=(0, 10), sticky="w")
+
+        # To-Do Entry
+        self.todo_entry = Entry(self.todo_frame, font=LABEL_FONT, bg=FG_COLOR, fg=BG_COLOR)
+        self.todo_entry.grid(row=1, column=0, padx=(0, 10), sticky="ew")
+
+        # Add Task Button
+        self.add_task_button = tk.Button(self.todo_frame, text="Add Task", command=self.add_task, font=LABEL_FONT, bg=BTN_BG, fg=BTN_FG)
+        self.add_task_button.grid(row=1, column=1, padx=(10, 0), sticky="ew")
+
+        # To-Do List Tasks Frame
+        self.tasks_frame = tk.Frame(self.todo_frame, bg=BG_COLOR)
+        self.tasks_frame.grid(row=2, column=0, columnspan=2, pady=(10, 0), sticky="ew")
+
+        # Initialize the list to store tasks
+        self.tasks = []
 
         self.POMODORO_TIME = 1500  # 25 minutes in seconds
         self.BREAK_TIME = 300      # 5 minutes in seconds
@@ -85,13 +108,27 @@ class PomodoroTimer:
             self.time_remaining -= 1
             self.master.after(1000, self.countdown)
         elif self.time_remaining == 0:
-            try:
-                self.timer_running = False
-                self.start_button.config(state=tk.NORMAL)
-                self.stop_button.config(state=tk.DISABLED)
-                messagebox.showinfo("Pomodoro Timer", "Time's up!")
-            except Exception as e:
-                messagebox.showerror("Error", f"An error occurred: {e}")
+            self.timer_running = False
+            self.start_button.config(state=tk.NORMAL)
+            self.stop_button.config(state=tk.DISABLED)
+            messagebox.showinfo("Pomodoro Timer", "Time's up!")
+            # Reset the timer to Pomodoro time
+            self.time_remaining = self.POMODORO_TIME
+            self.update_timer_label()
+
+    # Method to add a new task
+    def add_task(self):
+        task_text = self.todo_entry.get()
+        if task_text:
+            # Create a variable to store the state of the checkbox
+            task_state = tk.BooleanVar()
+            # Create a checkbox for the new task
+            task = tk.Checkbutton(self.tasks_frame, text=task_text, variable=task_state, font=LABEL_FONT, bg=BG_COLOR, fg=FG_COLOR, selectcolor=BG_COLOR)
+            task.pack(anchor="w")
+            # Add the task and its state to the list
+            self.tasks.append((task, task_state))
+            # Clear the entry field
+            self.todo_entry.delete(0, tk.END)
     
 
 if __name__ == "__main__":
