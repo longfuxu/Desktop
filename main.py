@@ -187,5 +187,5 @@ class PomodoroTimer:
 if __name__ == "__main__":
     root = tk.Tk()
     app = PomodoroTimer(root)
-    app.display_past_records()  # Display past records when the application starts
+    # Removed the call to the non-existent display_past_records method
     root.mainloop()
