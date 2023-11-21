@@ -119,6 +119,7 @@ class PomodoroTimer:
             self.start_button.config(state=tk.NORMAL)
             self.stop_button.config(state=tk.DISABLED)
             messagebox.showinfo("Pomodoro Timer", "Time's up!")
+            self.save_state()  # Save the state when a Pomodoro session ends
             # Reset the timer to Pomodoro time
             self.time_remaining = self.POMODORO_TIME
             self.update_timer_label()
@@ -130,10 +131,11 @@ class PomodoroTimer:
             # Create a variable to store the state of the checkbox
             task_state = tk.BooleanVar()
             # Create a checkbox for the new task
-            task = tk.Checkbutton(self.tasks_frame, text=task_text, variable=task_state, font=LABEL_FONT, bg=BG_COLOR, fg=FG_COLOR, selectcolor=BG_COLOR)
+            task = tk.Checkbutton(self.tasks_frame, text=task_text, variable=task_state, font=LABEL_FONT, bg=BG_COLOR, fg=FG_COLOR, selectcolor=BG_COLOR, command=self.save_state)
             task.pack(anchor="w")
             # Add the task and its state to the list
             self.tasks.append((task, task_state))
+            self.save_state()  # Save the state when a new task is added
             # Clear the entry field
             self.todo_entry.delete(0, tk.END)
     
