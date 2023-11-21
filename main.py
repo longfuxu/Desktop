@@ -36,6 +36,10 @@ class PomodoroTimer:
         self.settings_button = tk.Button(self.master, text="Settings", command=self.set_timer, font=LABEL_FONT, bg=BTN_BG, fg=BTN_FG)
         self.settings_button.grid(row=2, column=0, columnspan=2, pady=(10, 0), ipadx=10)
 
+        # Review Past Records Button
+        self.review_button = tk.Button(self.master, text="Review Past Records", command=self.review_past_records, font=LABEL_FONT, bg=BTN_BG, fg=BTN_FG)
+        self.review_button.grid(row=3, column=0, columnspan=2, pady=(10, 0), ipadx=10)
+
         # To-Do List Frame
         self.todo_frame = tk.Frame(self.master, bg=BG_COLOR)
         self.todo_frame.grid(row=3, column=0, columnspan=2, pady=(10, 0), sticky="ew")
@@ -146,17 +150,18 @@ class PomodoroTimer:
         with open('pomodoro_data.json', 'w') as f:
             json.dump(data, f, indent=4)
 
-    def display_past_records(self):
+    def review_past_records(self):
         try:
             with open('pomodoro_data.json', 'r') as f:
                 data = json.load(f)
-                print("Past Pomodoro Records:")
+                records = "Past Pomodoro Records:\n"
                 for todo in data['todos']:
                     status = "Completed" if todo['completed'] else "Not Completed"
-                    print(f"- {todo['task']} - {status}")
-                print(f"Last session was on {data['timestamp']}")
+                    records += f"- {todo['task']} - {status}\n"
+                records += f"Last session was on {data['timestamp']}"
+                messagebox.showinfo("Past Records", records)
         except FileNotFoundError:
-            print("No past records found.")
+            messagebox.showinfo("Past Records", "No past records found.")
 
     def load_state(self):
         try:
