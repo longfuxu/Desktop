@@ -1,6 +1,19 @@
 {
     "pomodoro_time": 1500,
     "break_time": 300,
-    "todos": [],
-    "timestamp": ""
+    "todos": [
+        {
+            "task": "test a activity",
+            "completed": true
+        },
+        {
+            "task": "how does this work",
+            "completed": false
+        },
+        {
+            "task": "just a test",
+            "completed": false
+        }
+    ],
+    "timestamp": "2023-11-21T17:49:02.670261"
 }
