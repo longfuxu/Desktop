@@ -1,5 +1,7 @@
 
 import tkinter as tk
+import json
+import datetime
 from tkinter import messagebox, simpledialog, Entry, Checkbutton
     
 # Styling constants
@@ -61,6 +63,7 @@ class PomodoroTimer:
         self.BREAK_TIME = 300      # 5 minutes in seconds
         self.time_remaining = self.POMODORO_TIME
         self.timer_running = False
+        self.load_state()
         
     # Updated method to set the timer durations
     def set_timer(self):
@@ -128,6 +131,40 @@ class PomodoroTimer:
             # Add the task and its state to the list
             self.tasks.append((task, task_state))
             # Clear the entry field
+            self.todo_entry.delete(0, tk.END)
+    
+    def save_state(self):
+        data = {
+            'pomodoro_time': self.POMODORO_TIME,
+            'break_time': self.BREAK_TIME,
+            'todos': [
+                {'task': task[0].cget("text"), 'completed': task[1].get()}
+                for task in self.tasks
+            ],
+            'timestamp': datetime.datetime.now().isoformat()
+        }
+        with open('pomodoro_data.json', 'w') as f:
+            json.dump(data, f, indent=4)
+
+    def load_state(self):
+        try:
+            with open('pomodoro_data.json', 'r') as f:
+                data = json.load(f)
+                self.POMODORO_TIME = data['pomodoro_time']
+                self.BREAK_TIME = data['break_time']
+                for todo in data['todos']:
+                    self.add_task(todo['task'], todo['completed'])
+        except FileNotFoundError:
+            pass  # It's okay if the file doesn't exist yet
+
+    def add_task(self, task_text, completed=False):
+        if task_text:
+            task_state = tk.BooleanVar(value=completed)
+            task = tk.Checkbutton(self.tasks_frame, text=task_text, variable=task_state, font=LABEL_FONT, bg=BG_COLOR, fg=FG_COLOR, selectcolor=BG_COLOR)
+            task.pack(anchor="w")
+            if completed:
+                task.select()
+            self.tasks.append((task, task_state))
             self.todo_entry.delete(0, tk.END)
     
 
