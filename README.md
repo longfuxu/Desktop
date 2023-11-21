@@ -23,10 +23,10 @@ The Pomodoro Timer is a simple and effective time management tool that can help 
 - tkinter library (usually included with Python)
 
 ## Installation
-No installation is required if you have Python and tkinter installed on your system. Simply download the `a.py` file and run it using Python.
+No installation is required if you have Python and tkinter installed on your system. Simply download the `main.py` file and run it using Python.
 
 ```bash
-python a.py
+python main.py
 ```
 
 ## License
